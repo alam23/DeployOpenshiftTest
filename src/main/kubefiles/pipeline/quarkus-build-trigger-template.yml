@@ -21,12 +21,8 @@ spec:
             value: $(tt.params.git-repository-url)
         workspaces:
           - name: maven-settings
-            emptyDir: {}
-          - name: workspace
-            volumeClaimTemplate:
-              spec:
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 100Mi
+            persistentVolumeClaim:
+              claimName: maven-pvc
+          - name: shared-workspace
+            persistentVolumeClaim:
+              claimName: source-pvc
