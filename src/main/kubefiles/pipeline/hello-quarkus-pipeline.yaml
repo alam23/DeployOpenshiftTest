@@ -8,6 +8,7 @@ metadata:
 spec: 
   workspaces: 
   - name: shared-workspace
+  - name: maven-settings
   params: 
   - name: git-url
     type: string
@@ -47,6 +48,8 @@ spec:
     workspaces:
       - name: source
         workspace: shared-workspace
+      - name: maven-settings
+        workspace: maven-settings
     runAfter:
       - fetch-repository
   - name: build-image 
@@ -63,6 +66,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository
+    - maven-verify
   - name: apply-manifests 
     taskRef:
       name: apply-manifests
