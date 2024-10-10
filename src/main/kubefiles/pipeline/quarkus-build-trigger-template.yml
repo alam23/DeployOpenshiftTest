@@ -17,8 +17,10 @@ spec:
         pipelineRef:
           name: hello-quarkus-test-build
         params:
-          - name: git-repository-url
+          - name: git-url
             value: $(tt.params.git-repository-url)
+          - name: IMAGE
+            value: 'image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest'
         workspaces:
           - name: maven-settings
             persistentVolumeClaim:
