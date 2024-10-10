@@ -1,0 +1,30 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: quarkus-build-trigger-template
+  labels:
+    app: quarkus-hello
+spec:
+  params:
+    - name: git-repository-url
+      default: "https://github.com/alam23/DeployOpenshiftTest.git"
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: hello-quarkus-test-build-
+      spec:
+        pipelineRef:
+          name: hello-quarkus-test-build
+        params:
+          - name: git-repository-url
+            value: $(tt.params.git-repository-url)
+        workspaces:
+          - name: workspace
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 100Mi
