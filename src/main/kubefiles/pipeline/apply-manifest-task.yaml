@@ -10,9 +10,9 @@ spec:
   - name: source  
   params:
   - name: manifest_dir
-    description: The directory in source that contains yaml manifests
+    description: The directory in source that contains yml manifests
     type: string
-    default: "src/main/kubefiles/application-template.yaml"
+    default: "src/main/kubefiles/application-template.yml"
   steps:
     - name: apply
       image: quay.io/openshift/origin-cli:latest

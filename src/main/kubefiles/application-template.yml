@@ -19,11 +19,9 @@ objects:
           labels:
             app: hello-quarkus
         spec:
-          imagePullSecrets:
-            - name: quay-registry-secret
           containers:
             - name: hello-quarkus
-              image: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/helloquarkus:latest
+              image: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 8080

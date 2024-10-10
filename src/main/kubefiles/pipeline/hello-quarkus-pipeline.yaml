@@ -7,8 +7,8 @@ metadata:
     learn-pipelines: pipeline 
 spec: 
   workspaces: 
-  - name: shared-workspace
-  - name: maven-settings
+    - name: shared-workspace
+    - name: maven-settings
   params: 
   - name: git-url
     type: string
@@ -17,7 +17,7 @@ spec:
   - name: IMAGE
     type: string
     description: image to be built from the code
-    default: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/helloquarkus:latest
+    default: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest
   tasks: 
   - name: fetch-repository
     taskRef:
