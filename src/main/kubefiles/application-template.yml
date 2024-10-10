@@ -1,0 +1,56 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: hello-quarkus-template
+  annotations:
+    description: "Hello Quarkus Template"
+objects:
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: hello-quarkus
+    spec:
+      selector:
+        matchLabels:
+          app: hello-quarkus
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: hello-quarkus
+        spec:
+          imagePullSecrets:
+            - name: quay-registry-secret
+          containers:
+            - name: hello-quarkus
+              image: quay.io/alam23/hello-quarkus:Build-1
+              imagePullPolicy: IfNotPresent
+              ports:
+                - containerPort: 8080
+      strategy:
+        type: Recreate
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: hello-quarkus
+      name: hello-quarkus
+    spec:
+      ports:
+        - port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: hello-quarkus
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: hello-quarkus
+      labels:
+        app: hello-quarkus
+    spec:
+      to:
+        kind: Service
+        name: hello-quarkus
+      port:
+        targetPort: 8080
