@@ -7,19 +7,9 @@ metadata:
 spec:
   serviceAccountName: pipeline
   triggers:
-    - name: quarkus-build-trigger
-      bindings:
-        - ref: github-push
-          kind: ClusterTriggerBinding
-      interceptors:
-        - ref:
-            name: "github"
-          params:
-            - name: "secretRef"
-              value:
-                secretName: quarkus-hello-github-webhook-secret
-                secretKey: token
-            - name: "eventTypes"
-              value: [ "push" ]
+    - bindings:
+        - kind: TriggerBinding
+          ref: quarkus-pipeline-binding
+      name: quarkus-build-trigger
       template:
         ref: quarkus-build-trigger-template

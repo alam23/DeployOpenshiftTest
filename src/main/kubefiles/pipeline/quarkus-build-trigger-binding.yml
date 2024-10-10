@@ -1,0 +1,9 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: quarkus-pipeline-binding
+  namespace: andersonandyalberto2-dev
+spec:
+  params:
+    - name: git-repo-url
+      value: $(body.repository.git_http_url)
