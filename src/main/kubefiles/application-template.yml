@@ -23,7 +23,7 @@ objects:
             - name: quay-registry-secret
           containers:
             - name: hello-quarkus
-              image: quay.io/alam23/hello-quarkus:Build-1
+              image: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/helloquarkus:latest
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 8080

@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  labels:
+    learn-pipelines: task
+    sandbox: learn-pipelines
+  name: apply-manifests
+spec:
+  workspaces:
+  - name: source  
+  params:
+  - name: manifest_dir
+    description: The directory in source that contains yaml manifests
+    type: string
+    default: "src/main/kubefiles/application-template.yaml"
+  steps:
+    - name: apply
+      image: quay.io/openshift/origin-cli:latest
+      workingDir: /workspace/source 
+      command: ["/bin/bash", "-c"]
+      args:
+        - |-
+          oc process -n andersonandyalberto2-dev -f $(inputs.params.manifest_dir) | oc apply -n andersonandyalberto2-dev -f -
