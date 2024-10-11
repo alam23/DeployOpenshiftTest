@@ -22,7 +22,7 @@ objects:
           containers:
             - name: hello-quarkus
               image: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: Always
               ports:
                 - containerPort: 8080
       strategy:
