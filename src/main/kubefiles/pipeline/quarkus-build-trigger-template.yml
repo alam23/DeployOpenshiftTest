@@ -15,7 +15,7 @@ spec:
         generateName: hello-quarkus-test-build-
       spec:
         pipelineRef:
-          name: hello-quarkus-test-build
+          name: hello-quarkus-test-build # Comentarios
         params:
           - name: git-url
             value: $(tt.params.git-repo-url)
