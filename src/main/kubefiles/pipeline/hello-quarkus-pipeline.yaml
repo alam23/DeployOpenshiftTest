@@ -33,7 +33,7 @@ spec:
       value: ""
     - name: deleteExisting
       value: "true"
-  - name: maven-verify
+  - name: maven-package-native
     taskRef:
       name: maven
       kind: ClusterTask
@@ -44,7 +44,8 @@ spec:
         value:
           - '-B'
           - '-ntp'
-          - verify
+          - package
+          - '-Dnative'
     workspaces:
       - name: source
         workspace: shared-workspace
