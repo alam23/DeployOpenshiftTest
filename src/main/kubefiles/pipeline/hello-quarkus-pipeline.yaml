@@ -67,7 +67,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository
-    - maven-verify
+    - maven-package-native
   - name: apply-manifests 
     taskRef:
       name: apply-manifests
