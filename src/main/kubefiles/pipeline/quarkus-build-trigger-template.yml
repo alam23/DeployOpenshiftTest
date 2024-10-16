@@ -21,6 +21,8 @@ spec:
             value: $(tt.params.git-repo-url)
           - name: IMAGE
             value: 'image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest'
+          - name: revision-branch
+            value: 'main'
         workspaces:
           - name: maven-settings
             persistentVolumeClaim:

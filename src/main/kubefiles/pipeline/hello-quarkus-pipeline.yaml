@@ -18,6 +18,10 @@ spec:
     type: string
     description: image to be built from the code
     default: image-registry.openshift-image-registry.svc:5000/andersonandyalberto2-dev/hello-quarkus:latest
+  - name: revision-branch
+    type: string
+    description: branch to checkout
+    default: main
   tasks: 
   - name: fetch-repository
     taskRef:
@@ -33,14 +37,28 @@ spec:
       value: ""
     - name: deleteExisting
       value: "true"
-  - name: build-native-executable
+    - name: revision
+      value: $(params.revision-branch)
+  - name: maven-package-native
     taskRef:
-      name: quarkus-build-native
+      name: maven
+      kind: ClusterTask
+    params:
+      - name: MAVEN_IMAGE
+        value: 'quay.io/repository/quarkus/ubi-quarkus-graalvmce-s2i:22.3-java17'
+      - name: GOALS
+        value:
+          - '-B'
+          - '-ntp'
+          - package
+          - '-Dnative'
     workspaces:
       - name: source
         workspace: shared-workspace
+      - name: maven-settings
+        workspace: maven-settings
     runAfter:
-      - fetch-repository
+    - fetch-repository
   - name: build-image 
     taskRef:
       name: buildah
@@ -55,7 +73,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository
-    - build-native-executable
+    - maven-package-native
   - name: apply-manifests 
     taskRef:
       name: apply-manifests
