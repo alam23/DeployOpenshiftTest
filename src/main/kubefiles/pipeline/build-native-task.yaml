@@ -6,19 +6,14 @@ spec:
   params:
     - name: QUARKUS_IMAGE
       type: string
-      default: 'quay.io/repository/quarkus/ubi-quarkus-graalvmce-s2i:22.3-java17'
-    - name: SOURCE_DIR
-      type: string
-      default: './'
+      default: 'quay.io/repository/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17'
   workspaces:
     - name: source
   steps:
-    - name: quarkus-build
+    - name: maven-package
       image: "$(params.QUARKUS_IMAGE)"
-      command:
-        - /bin/sh
-        - -c
-      args:
-        - |
-          cd $(workspaces.source.path) && \
-          mvn package -Dnative
+      workingDir: /workspace/source
+      script: |
+        #!/bin/bash
+        set -e
+        ./mvnw package -Dnative

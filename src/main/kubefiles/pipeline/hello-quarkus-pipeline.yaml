@@ -39,24 +39,12 @@ spec:
       value: "true"
     - name: revision
       value: $(params.revision-branch)
-  - name: maven-package-native
+  - name: build-native-executable
     taskRef:
-      name: maven
-      kind: ClusterTask
-    params:
-      - name: MAVEN_IMAGE
-        value: 'quay.io/repository/quarkus/ubi-quarkus-graalvmce-s2i:22.3-java17'
-      - name: GOALS
-        value:
-          - '-B'
-          - '-ntp'
-          - package
-          - '-Dnative'
+      name: quarkus-build-native
     workspaces:
-      - name: source
-        workspace: shared-workspace
-      - name: maven-settings
-        workspace: maven-settings
+    - name: source
+      workspace: shared-workspace
     runAfter:
     - fetch-repository
   - name: build-image 
@@ -73,7 +61,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository
-    - maven-package-native
+    - build-native-executable
   - name: apply-manifests 
     taskRef:
       name: apply-manifests
