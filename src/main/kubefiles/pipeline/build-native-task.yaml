@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: quarkus-build-native
+spec:
+  params:
+    - name: QUARKUS_IMAGE
+      type: string
+      default: 'quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17'
+    - name: SOURCE_DIR
+      type: string
+      default: './'
+  workspaces:
+    - name: source
+  steps:
+    - name: quarkus-build
+      image: "$(params.QUARKUS_IMAGE)"
+      command:
+        - /bin/sh
+        - -c
+      args:
+        - |
+          cd $(workspaces.source.path) && \
+          quarkus build --native

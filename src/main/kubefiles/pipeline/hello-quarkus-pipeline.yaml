@@ -33,24 +33,12 @@ spec:
       value: ""
     - name: deleteExisting
       value: "true"
-  - name: maven-package-native
+  - name: build-native-executable
     taskRef:
-      name: maven
-      kind: ClusterTask
-    params:
-      - name: MAVEN_IMAGE
-        value: 'registry.access.redhat.com/ubi8/ubi-minimal:8.10'
-      - name: GOALS
-        value:
-          - '-B'
-          - '-ntp'
-          - package
-          - '-Dnative'
+      name: quarkus-build-native
     workspaces:
       - name: source
         workspace: shared-workspace
-      - name: maven-settings
-        workspace: maven-settings
     runAfter:
       - fetch-repository
   - name: build-image 
@@ -67,7 +55,7 @@ spec:
       workspace: shared-workspace
     runAfter:
     - fetch-repository
-    - maven-package-native
+    - build-native-executable
   - name: apply-manifests 
     taskRef:
       name: apply-manifests
