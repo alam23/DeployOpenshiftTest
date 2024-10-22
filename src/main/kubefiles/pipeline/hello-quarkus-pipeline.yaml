@@ -62,6 +62,12 @@ spec:
     runAfter:
     - fetch-repository
     - build-native-executable
+    env:
+      - name: DEV_NAME
+        valueFrom:
+          configMapKeyRef:
+            name: hello-config
+            key: DEV_NAME
   - name: apply-manifests 
     taskRef:
       name: apply-manifests

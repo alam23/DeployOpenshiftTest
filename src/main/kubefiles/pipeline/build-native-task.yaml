@@ -3,17 +3,18 @@ kind: Task
 metadata:
   name: quarkus-build-native
 spec:
-  params:
-    - name: QUARKUS_IMAGE
-      type: string
-      default: 'quay.io/repository/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17'
   workspaces:
     - name: source
   steps:
     - name: maven-package
-      image: "$(params.QUARKUS_IMAGE)"
+      image: quay.io/quarkus/ubi-quarkus-graalvmce-builder-image:22.3-java17
       workingDir: /workspace/source
+      resources:
+        requests:
+          memory: "2Gi"
+        limits:
+          memory: "4Gi"
       script: |
         #!/bin/bash
         set -e
-        ./mvnw package -Dnative
+        sh ./mvnw package -Dquarkus.native.native-image-xmx=2G -Dnative
